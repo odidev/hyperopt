@@ -1,35 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@bhumika-PS 
-bhumika-PS
-/
-hyperopt
-forked from hyperopt/hyperopt
-0
-0891
-Code
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-hyperopt/.travis.yml
-@bhumika-PS
-bhumika-PS Update .travis.yml
-Latest commit 5a91fbf 8 minutes ago
- History
- 10 contributors
-@maxpumperla@bhumika-PS@WeichenXu123@magdapoppins@marctorsoc@jaberg@PhilipMay@cclauss@palicand@panchalhp-db
-Executable File  51 lines (41 sloc)  1.11 KB
-  
 os: linux
 
 dist: focal
@@ -81,15 +49,3 @@ script: pytest
 
 after_success:
   - coveralls
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
