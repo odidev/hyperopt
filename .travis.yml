@@ -1,3 +1,35 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@bhumika-PS 
+bhumika-PS
+/
+hyperopt
+forked from hyperopt/hyperopt
+0
+0891
+Code
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+hyperopt/.travis.yml
+@bhumika-PS
+bhumika-PS Update .travis.yml
+Latest commit 5a91fbf 8 minutes ago
+ History
+ 10 contributors
+@maxpumperla@bhumika-PS@WeichenXu123@magdapoppins@marctorsoc@jaberg@PhilipMay@cclauss@palicand@panchalhp-db
+Executable File  51 lines (41 sloc)  1.11 KB
+  
 os: linux
 
 dist: focal
@@ -20,20 +52,23 @@ services:
 
 jobs:
   include:
-    - name: "Run Linter (black)"
-      python: 3.9
-      install: pip install --upgrade black
-      script: black .
+    #- name: "Run Linter (black)"
+      #python: 3.9
+      #install: pip install --upgrade black
+      #script: black .
     - name: "Run tests on python 3.7"
       python: 3.7
-    - name: "Run tests on python 3.8"
-      python: 3.8
-    - name: "Run tests on python 3.9"
-      python: 3.9
-      env: NUMPY_VERSION=1.19.4
+    - name: "Run tests on python 3.7"
+      python: 3.7
+      arch: arm64
+    #- name: "Run tests on python 3.8"
+      #python: 3.8
+    #- name: "Run tests on python 3.9"
+      #python: 3.9
+      #env: NUMPY_VERSION=1.19.4
 
 install:
-  - sudo apt-get remove ipython || true  # ipython is not pre-installed in Focal
+  - sudo apt-get remove ipython || true  # ipython is not pre-installed in Focal
   - pip install --upgrade pip setuptools wheel
   - pip install $IPYTHON numpy==$NUMPY_VERSION nose pyspark==$SPARK_VERSION scipy
   - pip install -e '.[MongoTrials, SparkTrials, ATPE, dev]'
@@ -46,3 +81,15 @@ script: pytest
 
 after_success:
   - coveralls
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
