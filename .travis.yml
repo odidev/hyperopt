@@ -28,15 +28,15 @@ jobs:
       python: 3.7
       arch: arm64
 
- before_install:
-   - wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu1604-arm64-100.3.1.tgz
-   #- wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-$MONGODB_VERSION.tgz
-   - tar xfz mongodb-database-tools-ubuntu1604-arm64-100.3.1.tgz
-   - export PATH=`pwd`/mongodb-database-tools-ubuntu1604-arm64-100.3.1/bin:$PATH
-   - mkdir -p data/db
-   - mongod --dbpath=data/db &
-   - sleep 3
-   - mongo --version
+before_install:
+  - wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu1604-arm64-100.3.1.tgz
+  #- wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-$MONGODB_VERSION.tgz
+  - tar xfz mongodb-database-tools-ubuntu1604-arm64-100.3.1.tgz
+  - export PATH=`pwd`/mongodb-database-tools-ubuntu1604-arm64-100.3.1/bin:$PATH
+  - mkdir -p data/db
+  - mongod --dbpath=data/db &
+  - sleep 3
+  - mongo --version
   
 install:
   - apt-get remove ipython || true  # ipython is not pre-installed in Focal
