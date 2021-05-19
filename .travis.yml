@@ -19,7 +19,6 @@ env:
     - IPYTHON=ipython[all]
 
 services:
-  - docker
   - mongodb  
 
 jobs:
@@ -29,14 +28,11 @@ jobs:
       arch: arm64
 
 before_install:
-  - wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu1604-arm64-100.3.1.tgz
-  #- wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-$MONGODB_VERSION.tgz
-  - tar -xvf mongodb-database-tools-ubuntu1604-arm64-100.3.1.tgz
-  - export PATH=`pwd`/mongodb-database-tools-ubuntu1604-arm64-100.3.1/bin:$PATH
-  - mkdir -p data/db
-  - mongod --dbpath=data/db &
-  - sleep 3
-  - mongo --version
+  - apt-get install gnupg
+  - wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
+  - echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+  - apt-get update
+  - apt-get install -y mongodb-org
   
 install:
   - apt-get remove ipython || true  # ipython is not pre-installed in Focal
