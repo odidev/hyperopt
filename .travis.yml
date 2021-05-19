@@ -3,7 +3,7 @@ os: linux
 dist: focal
 
 language: python
-sudo: false
+#sudo: false
 cache:
   directories:
     - $HOME/.cache/spark-versions
@@ -58,7 +58,7 @@ install:
   #- sudo systemctl start mongodb
   
   #- sudo apt-get remove ipython || true  # ipython is not pre-installed in Focal
-  - apt-get remove ipython || true  # ipython is not pre-installed in Focal
+  - sudo apt-get remove ipython || true  # ipython is not pre-installed in Focal
   - pip install --upgrade pip setuptools wheel
   - pip install $IPYTHON numpy==$NUMPY_VERSION nose pyspark==$SPARK_VERSION scipy
   - pip install -e '.[MongoTrials, SparkTrials, ATPE, dev]'
