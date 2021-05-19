@@ -1,5 +1,3 @@
-sudo: false
-
 os: linux
 
 dist: focal
@@ -39,7 +37,7 @@ jobs:
   - mongo --version
   
 install:
-  - apt-get remove ipython || true  # ipython is not pre-installed in Focal
+  - sudo apt-get remove ipython || true  # ipython is not pre-installed in Focal
   - pip install --upgrade pip setuptools wheel
   - pip install $IPYTHON numpy==$NUMPY_VERSION nose pyspark==$SPARK_VERSION scipy
   - pip install -e '.[MongoTrials, SparkTrials, ATPE, dev]'
