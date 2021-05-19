@@ -3,21 +3,23 @@ os: linux
 dist: focal
 
 language: python
-
+sudo: false
 cache:
   directories:
     - $HOME/.cache/spark-versions
 
 env:
   global:
+    - MONGODB_VERSION=2.6.10
     - HYPEROPT_FMIN_SEED=3
     - SPARK_VERSION=3.0.1
     - NUMPY_VERSION=1.18.1
     - IPYTHON=ipython[all]
 
 services:
+  - docker
   - mongodb
-
+  
 jobs:
   include:
     #- name: "Run Linter (black)"
@@ -35,6 +37,16 @@ jobs:
       #python: 3.9
       #env: NUMPY_VERSION=1.19.4
 
+ before_install:
+  - wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu1604-arm64-100.3.1.tgz
+  #- wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-$MONGODB_VERSION.tgz
+  - tar xfz mongodb-database-tools-ubuntu1604-arm64-100.3.1.tgz
+  - export PATH=`pwd`/mongodb-database-tools-ubuntu1604-arm64-100.3.1/bin:$PATH
+  - mkdir -p data/db
+  - mongod --dbpath=data/db &
+  - sleep 3
+  - mongo --version
+  
 install:
 #mongodb installation
   #- sudo apt-get install gnupg
@@ -45,19 +57,20 @@ install:
   #- sudo apt-get install -y mongodb-org
   #- sudo systemctl start mongodb
   
-  - sudo apt-get remove ipython || true  # ipython is not pre-installed in Focal
+  #- sudo apt-get remove ipython || true  # ipython is not pre-installed in Focal
+  - apt-get remove ipython || true  # ipython is not pre-installed in Focal
   - pip install --upgrade pip setuptools wheel
   - pip install $IPYTHON numpy==$NUMPY_VERSION nose pyspark==$SPARK_VERSION scipy
   - pip install -e '.[MongoTrials, SparkTrials, ATPE, dev]'
 
 before_script:
-  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-  - echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
-  - sudo apt-get update
-  - sudo apt-get install -y mongodb-org=2.6.6 mongodb-org-server=2.6.6 mongodb-org-shell=2.6.6 mongodb-org-mongos=2.6.6 mongodb-org-tools=2.6.6
-  - sleep 15 #mongo may not respond immediatly
-  - mongo --version
-  #- sleep 15 # mongo takes time to start
+  #- sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+  #- echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+  #- sudo apt-get update
+  #- sudo apt-get install -y mongodb-org=2.6.6 mongodb-org-server=2.6.6 mongodb-org-shell=2.6.6 mongodb-org-mongos=2.6.6 mongodb-org-tools=2.6.6
+  #- sleep 15 #mongo may not respond immediatly
+  #- mongo --version
+  - sleep 15 # mongo takes time to start
   - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 
 script: pytest
